@@ -1,0 +1,8 @@
+{
+  // Typecheck + editor view: sources, tests and config files, no emit.
+  "extends": "@ibp/tsconfig/base.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": ["src", "test", "vitest.config.ts"]
+}

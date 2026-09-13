@@ -1,0 +1,37 @@
+{
+  "name": "@ibp/scene-schema",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Scene DSL: JSON Schema source of truth, generated types, parser, validator, constants",
+  "type": "module",
+  "sideEffects": false,
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch --preserveWatchOutput",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint . --max-warnings 0",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest",
+    "codegen": "node scripts/codegen.mjs",
+    "codegen:check": "node scripts/codegen.mjs --check",
+    "clean": "rm -rf dist coverage .turbo"
+  },
+  "devDependencies": {
+    "@ibp/eslint-config": "workspace:*",
+    "@ibp/tsconfig": "workspace:*",
+    "@vitest/coverage-v8": "^4.1.11",
+    "eslint": "^10.10.0",
+    "typescript": "5.9.3",
+    "vitest": "^4.1.11"
+  }
+}

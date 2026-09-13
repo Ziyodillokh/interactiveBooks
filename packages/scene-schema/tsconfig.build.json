@@ -1,0 +1,6 @@
+{
+  // Emit src/ -> dist/ only; tests never ship.
+  "extends": "@ibp/tsconfig/library.json",
+  "include": ["src"],
+  "exclude": ["src/**/*.test.ts"]
+}
