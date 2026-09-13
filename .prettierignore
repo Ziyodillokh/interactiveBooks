@@ -1,0 +1,13 @@
+node_modules/
+dist/
+coverage/
+.turbo/
+pnpm-lock.yaml
+**/*.tsbuildinfo
+# Codegen output (committed, never hand-edited); the pattern needs the leading ** because a
+# middle slash anchors it to the repo root under gitignore semantics.
+**/src/generated/
+# Hand-formatted planning docs (compact tables); the brief is kept verbatim.
+docs/PRODUCT_SPEC.md
+docs/MASTER_PLAN.md
+docs/DECISIONS.md

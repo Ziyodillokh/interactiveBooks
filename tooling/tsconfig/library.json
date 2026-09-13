@@ -1,0 +1,12 @@
+{
+  // Compiled workspace package (ADR-005): src/ -> dist/ via `tsc -p tsconfig.build.json`.
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./base.json",
+  "compilerOptions": {
+    // ${configDir} = the extending package, otherwise paths resolve relative to this file.
+    // Turborepo orders builds via `^build`; project references would duplicate that graph.
+    "composite": false,
+    "outDir": "${configDir}/dist",
+    "rootDir": "${configDir}/src"
+  }
+}

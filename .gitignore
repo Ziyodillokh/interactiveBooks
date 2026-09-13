@@ -4,12 +4,13 @@ node_modules/
 
 # build outputs
 dist/
-build/
-.next/
-out/
 .turbo/
 *.tsbuildinfo
 coverage/
+# app outputs are anchored so a source folder named build/ or out/ is never ignored by accident
+apps/*/.next/
+apps/*/out/
+apps/*/build/
 
 # environment / secrets
 .env
@@ -26,3 +27,6 @@ coverage/
 # logs / temp
 *.log
 tmp/
+
+# tool caches
+.eslintcache

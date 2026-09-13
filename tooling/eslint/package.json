@@ -1,0 +1,29 @@
+{
+  "name": "@ibp/eslint-config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared ESLint flat configs for the workspace",
+  "exports": {
+    ".": "./index.js"
+  },
+  "files": [
+    "index.js",
+    "base.js",
+    "react.js"
+  ],
+  "scripts": {
+    "lint": "eslint . --max-warnings 0"
+  },
+  "dependencies": {
+    "@eslint/js": "^10.0.1",
+    "globals": "^17.12.0",
+    "typescript-eslint": "^8.70.0"
+  },
+  "peerDependencies": {
+    "eslint": "^10.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^10.10.0"
+  }
+}

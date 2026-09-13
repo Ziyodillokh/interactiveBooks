@@ -14,7 +14,7 @@ Format: context → decision → consequences. Newest at the bottom. Superseded 
 
 **Context.** The DSL must be enforced at generation time (Ollama structured outputs accept a JSON Schema), at API boundaries, in the editor and in tests. Hand-written TypeScript types would drift from the runtime schema.
 
-**Decision.** JSON Schema files in `packages/scene-schema/schema` are canonical. TypeScript types are generated (json-schema-to-typescript) and committed; a `codegen --check` task guards freshness. Runtime validation uses Ajv (strict, allErrors, formatted errors). **Semantic validation** (rules that a schema cannot express: reference integrity, arithmetic, satisfiable completion) lives in `packages/validation` as explicit, individually testable rules producing a `ValidationReport`.
+**Decision.** JSON Schema files in `packages/scene-schema/schema` are canonical. TypeScript types are generated (json-schema-to-typescript) and committed; a `codegen:check` task guards freshness. Runtime validation uses Ajv (strict, allErrors, formatted errors). **Semantic validation** (rules that a schema cannot express: reference integrity, arithmetic, satisfiable completion) lives in `packages/validation` as explicit, individually testable rules producing a `ValidationReport`.
 
 **Consequences.** One artefact feeds the LLM, the validator and the types. Zod was considered (used in the owner's other projects) but rejected as the source of truth because the LLM needs JSON Schema and duplicating definitions would violate ADR-001's single-source principle.
 
@@ -81,3 +81,11 @@ Format: context → decision → consequences. Newest at the bottom. Superseded 
 **Decision.** Scenes declare a logical canvas in `layout` (fixed units, e.g. 1280 × 720; the engine scales to the viewport). `SceneObject.position` is **optional**: objects without a position are placed deterministically by the engine's auto-layout (by `group`, in reading order). Explicit positions (set by the editor) always win. The DSL therefore has one representation that is both AI-friendly and editor-precise.
 
 **Consequences.** The engine owns a deterministic layout algorithm (tested). The semantic validator checks counts by `group`, not by coordinates. Editors can "pin" objects by writing positions.
+
+## ADR-011 — Workspace packages are ESM-only; `apps/api` is an ESM NestJS app
+
+**Context.** Every `@ibp/*` package is compiled with `module: NodeNext` from `"type": "module"` sources and exposes `exports: { ".": { types, default } }` pointing at ESM `dist/`. A dual CJS/ESM build (tsup, two `dist` trees, `require`/`import` conditions) would double the build surface for one consumer. NestJS 11 scaffolds CommonJS (`module: commonjs`, `moduleResolution: node10`) by default; such a consumer cannot resolve an ESM-only `exports` map (TS2307), while Node 24 `require(esm)` and TypeScript 5.9 under `NodeNext` both handle it.
+
+**Decision.** All workspace packages are **ESM-only**: one `dist/`, `types` + `default` conditions, no CJS artefact. `apps/api` (Phase 5) is therefore built as an **ESM NestJS application**: `"type": "module"`, `module`/`moduleResolution: NodeNext` via `@ibp/tsconfig/node.json`, Vitest with `unplugin-swc` for decorator metadata (ADR-008). Bundler-resolved apps (Next.js, Vite) need nothing special. A dual build is adopted only if a required dependency proves incompatible with an ESM Nest app; that would be its own ADR.
+
+**Consequences.** One module format across the repo, no `require`/`import` drift. A stock `nest new` scaffold is not used as-is; the Phase 5 bootstrap must set the ESM options explicitly and is reviewed against this ADR.

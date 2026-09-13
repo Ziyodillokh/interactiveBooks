@@ -1,0 +1,48 @@
+{
+  "$schema": "https://turborepo.com/schema.v2.json",
+  "globalEnv": ["CI", "NODE_ENV"],
+  "globalDependencies": [".npmrc", ".nvmrc"],
+  "tasks": {
+    "codegen": {
+      "inputs": ["schema/**", "scripts/codegen.mjs"],
+      "outputs": ["src/generated/**"]
+    },
+    "codegen:check": {
+      "inputs": ["schema/**", "scripts/codegen.mjs", "src/generated/**"],
+      "outputs": []
+    },
+    "build": {
+      "dependsOn": ["codegen", "^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "!test/**",
+        "!**/*.test.ts",
+        "!**/*.test.tsx",
+        "!vitest.config.ts",
+        "!eslint.config.js",
+        "$TURBO_ROOT$/tooling/tsconfig/*.json"
+      ],
+      "outputs": ["dist/**"]
+    },
+    "typecheck": {
+      "dependsOn": ["codegen", "^build"],
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/tooling/tsconfig/*.json"]
+    },
+    "lint": {
+      "dependsOn": ["codegen"],
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/tooling/eslint/*.js"]
+    },
+    "test": {
+      "dependsOn": ["codegen", "^build"],
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/tooling/tsconfig/*.json"],
+      "outputs": ["coverage/**"]
+    },
+    "clean": {
+      "cache": false
+    },
+    "dev": {
+      "persistent": true,
+      "cache": false
+    }
+  }
+}

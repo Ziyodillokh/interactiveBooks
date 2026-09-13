@@ -1,0 +1,16 @@
+{
+  // apps/web (Phase 7). Next.js rewrites `jsx` to "preserve" and needs its plugin, so both are
+  // set here rather than fought over on every `next dev`.
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "lib": ["ES2024", "DOM", "DOM.Iterable"],
+    "jsx": "preserve",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+    "allowJs": true,
+    "incremental": true,
+    "plugins": [{ "name": "next" }]
+  }
+}

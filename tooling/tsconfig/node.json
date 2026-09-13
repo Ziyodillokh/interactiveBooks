@@ -1,0 +1,10 @@
+{
+  // Node runtime code (apps/api, scripts): same ESM rules as libraries plus Node globals.
+  // Requires `@types/node` — a root devDependency; packages that extend this preset (or use Node
+  // globals in tests) also list it in their own devDependencies (DEVELOPMENT.md, "Adding a package").
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "types": ["node"]
+  }
+}

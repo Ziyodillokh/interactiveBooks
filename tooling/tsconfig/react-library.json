@@ -1,0 +1,12 @@
+{
+  // Browser-facing compiled packages (ui, scene-engine React wrapper). Same compiled-package
+  // convention as library.json (ADR-005): tsc emits src/ -> dist/ (JS + .d.ts) with NodeNext module
+  // semantics, which Vite/Next consume through `exports` like any other workspace package.
+  // Only the DOM lib and the automatic JSX runtime are added.
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./library.json",
+  "compilerOptions": {
+    "lib": ["ES2024", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx"
+  }
+}

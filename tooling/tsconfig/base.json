@@ -1,0 +1,30 @@
+{
+  // Baseline for every package and app. Strictness lives here so a package cannot opt out silently.
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    // Node 24 (ADR-006) implements ES2024 in full (Object.groupBy, Promise.withResolvers, Set methods…).
+    "target": "ES2024",
+    "lib": ["ES2024"],
+    // Node-native ESM: import specifiers need extensions, package.json "exports" are honoured.
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    // Every tool in the chain (vitest/esbuild, swc, tsc) must agree on what is a type-only import.
+    // (implies isolatedModules)
+    "verbatimModuleSyntax": true,
+    // Array/record indexing returns T | undefined; DSL parsing must never assume presence.
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    // Global type packages are opt-in per preset (node.json adds "node"); nothing hoisted into
+    // node_modules/@types leaks into a library by accident.
+    "types": [],
+    // Third-party .d.ts is not our problem; keeps typecheck fast and independent of upstream sloppiness.
+    "skipLibCheck": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    // JSON Schema fixtures and examples are imported directly in tests.
+    "resolveJsonModule": true
+  }
+}
